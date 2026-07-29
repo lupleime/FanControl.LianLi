@@ -63,6 +63,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LianLiPlugin\LianLi\FanSpeedMapper.cs" />
     <Compile Include="LianLiPlugin\LianLi\Devices.cs" />
     <Compile Include="LianLiPlugin\LianLi\HID.cs" />
     <Compile Include="LianLiPlugin\LianLi\HidSharp\AsyncResult.cs" />

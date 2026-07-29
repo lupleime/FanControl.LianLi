@@ -50,7 +50,7 @@ namespace LianLi
             return _fancontrollers[fancontroller_index].GetSpeed(fancontroller_channel);
         }
 
-        public void FanControllers_SetSpeed(int fancontroller_index, int fancontroller_channel, int speed)
+        public void FanControllers_SetSpeed(int fancontroller_index, int fancontroller_channel, float speed)
         {
             _fancontrollers[fancontroller_index].SetSpeed(fancontroller_channel, speed);
         }
@@ -104,28 +104,26 @@ namespace LianLi
         }
 
 
-        public void SetSpeed(int fancontroller_channel, int speed)
+        public void SetSpeed(int fancontroller_channel, float speed)
         {
-            var speed_800_1900 = (byte)((800 + (11 * speed)) / 19);
-            var speed_250_2000 = (byte)((250 + (17.5 * speed)) / 20);
-            var speed_200_2100 = (byte)((200 + (19 * speed)) / 21);
+            byte rawSpeed = FanSpeedMapper.Map(_device._pid, speed);
 
             switch (_type)
             {
                 case Type.SL:
-                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, speed_800_1900 });
+                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, rawSpeed });
                     break;
                 case Type.SLV2:
-                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, speed_250_2000 });
+                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, rawSpeed });
                     break;
                 case Type.AL:
-                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, speed_800_1900 });
+                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, rawSpeed });
                     break;
                 case Type.ALV2:
-                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, speed_250_2000 });
+                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, rawSpeed });
                     break;
                 case Type.SLI:
-                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, speed_200_2100 });
+                    _device.Write(new byte[] { 224, (byte)(32 + fancontroller_channel), 0, rawSpeed });
                     break;
             }
         }

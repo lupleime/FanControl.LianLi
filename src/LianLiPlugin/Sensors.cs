@@ -36,7 +36,7 @@ namespace FanControl.LianLiPlugin
         {
             if(_val != val)
             {
-                _devices.FanControllers_SetSpeed(_controllerIndex, _channelIndex, (int)val);
+                _devices.FanControllers_SetSpeed(_controllerIndex, _channelIndex, val);
                 _val = val;
             }
         }

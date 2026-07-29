@@ -1,4 +1,6 @@
 src/bin
 src/obj
+tests/**/bin
+tests/**/obj
 src/FanControl.LianLiPlugin.csproj.user
 src/.vs

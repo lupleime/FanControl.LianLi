@@ -28,6 +28,31 @@ An unofficial LianLi plugin for [FanControl](https://github.com/Rem0o/FanControl
 
 1. Sharing the controllers across multiple pieces of software at the same time will lead to issues. For example, using this plugin along with OpenRGB. If you want to dynamically change the RGB, please use **FanControl.LianLiPlugin.ARGB.dll** and connect the controller to your motherboard's ARGB header.
 
+## Original UNI FAN SL minimum RPM
+
+The original percentage conversion maps 0% to raw `42`. USB captures from
+L-Connect 3 show that an original UNI FAN SL controller with PID `a100`
+instead uses raw `10` as its minimum-running command on every channel:
+
+```text
+E0 20 00 0A
+E0 21 00 0A
+E0 22 00 0A
+E0 23 00 0A
+```
+
+On the tested hub, this produced approximately 495 RPM with SL140 fans and
+780-810 RPM with SL120 fans. This plugin therefore maps 0% to raw `10` only
+for PID `a100`. Values above 0% and all other supported controller PIDs keep
+their existing mappings. Raw zero is never sent, and 100% remains full speed.
+
+Mapping tests can be built and run with:
+
+```powershell
+msbuild src\FanControl.LianLiPlugin.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+tests\FanControl.LianLiPlugin.Tests\bin\Release\FanControl.LianLiPlugin.Tests.exe
+```
+
 ## Submitting An Issue
 
 When submitting an issue, please include the Name, VID, and PID of your controller. It can be located within Device Manager:
